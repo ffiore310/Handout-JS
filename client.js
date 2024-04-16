@@ -35,9 +35,9 @@ async function getExercises(token) {
   
 }
 
-async function postSoma(soma, token) {
-    const url = 'https://tecweb-js.insper-comp.com.br/exercicio/soma';
-    const body = { resposta: soma };
+async function postResposta(endpoint,resposta, token) {
+    const url = `https://tecweb-js.insper-comp.com.br/exercicio/${endpoint}`;
+    const body = { resposta: resposta };
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -60,14 +60,23 @@ async function main() {
 
       //Faz o exercicio de soma
       add = exercises.soma.entrada;
-      console.log('Valores para soma:', add);
-      const r_soma = await postSoma(soma(add.a, add.b), token);
+      //console.log('Valores para soma:', add);
+      const r_soma = await postResposta('soma',soma(add.a, add.b), token);
       console.log('Resultado soma de valores:', r_soma);
+
+      //Faz o exercicio de contagem de string
+      string = exercises["tamanho-string"].entrada.string;
+      const r_string = await postResposta('tamanho-string',conta_string(string), token);
+      console.log('Resultado da contagem da string:', r_string);
       }
   }
 
 function soma(a, b) {
     return a + b;
+}
+
+function conta_string(s){
+    return s.length;
 }
 
 main();
